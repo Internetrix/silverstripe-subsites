@@ -213,7 +213,6 @@ class LeftAndMainSubsites extends Extension {
 			if(!Session::get('SubsiteID') || $_GET['SubsiteID'] != Session::get('SubsiteID')) {
 				Session::clear("{$this->owner->class}.currentPage");
 			}
-			Debug::log('$_GET ' . $_GET['SubsiteID']);
 			// Update current subsite in session
 			Subsite::changeSubsite($_GET['SubsiteID']);
 		
@@ -225,10 +224,8 @@ class LeftAndMainSubsites extends Extension {
 		// This is needed to properly initialise the session in situations where someone opens the CMS via a link.
 		$record = $this->owner->currentPage();
 		if($record && isset($record->SubsiteID) && is_numeric($record->SubsiteID) && isset($this->owner->urlParams['ID'])) {
-		
 			if ($this->shouldChangeSubsite($this->owner->class, $record->SubsiteID, Subsite::currentSubsiteID())) {
 				// Update current subsite in session
-				Debug::log("record subsite id " . $record->SubsiteID);
 				Subsite::changeSubsite($record->SubsiteID);
 		
 				//Redirect to clear the current page
@@ -236,7 +233,18 @@ class LeftAndMainSubsites extends Extension {
 			}
 		
 		}
-
+		/*******Added by GW***************/
+		if(isset($_GET['SubsiteID']) || ($record && isset($record->SubsiteID) && is_numeric($record->SubsiteID) && isset($this->owner->urlParams['ID']))){
+			$subsiteID 	= isset($_GET['SubsiteID']) ? $_GET['SubsiteID'] : $record->SubsiteID;
+			$subsite 	= Subsite::get()->byID($subsiteID);
+			
+			$subsiteTitle = $subsite ? $subsite->Title : "Main-Site";
+			Config::inst()->update('Upload', 'uploads_folder', $subsiteTitle . "/" . Config::inst()->get('Upload', 'uploads_folder'));
+			
+			Debug::log("Default upload folder set to \"" . Config::inst()->get('Upload', 'uploads_folder') . "\"");
+		}
+		/**********************************/
+		
 		// SECOND, check if we need to change subsites due to lack of permissions.
 
 		if (!$this->owner->canAccess()) {
