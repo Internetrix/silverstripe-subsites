@@ -240,8 +240,6 @@ class LeftAndMainSubsites extends Extension {
 			
 			$subsiteTitle = $subsite ? $subsite->Title : "Main-Site";
 			Config::inst()->update('Upload', 'uploads_folder', $subsiteTitle . "/" . Config::inst()->get('Upload', 'uploads_folder'));
-			
-			Debug::log("Default upload folder set to \"" . Config::inst()->get('Upload', 'uploads_folder') . "\"");
 		}
 		/**********************************/
 		
