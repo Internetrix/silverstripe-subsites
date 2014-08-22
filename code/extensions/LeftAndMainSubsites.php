@@ -239,6 +239,9 @@ class LeftAndMainSubsites extends Extension {
 			$subsite 	= Subsite::get()->byID($subsiteID);
 			
 			$subsiteTitle = $subsite ? $subsite->Title : "Main-Site";
+			$filter = FileNameFilter::create();
+			$subsiteTitle = $filter->filter($subsiteTitle);
+			
 			Config::inst()->update('Upload', 'uploads_folder', $subsiteTitle . "/" . Config::inst()->get('Upload', 'uploads_folder'));
 			Debug::log(Config::inst()->get('Upload', 'uploads_folder'));
 		}
