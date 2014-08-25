@@ -234,13 +234,13 @@ class LeftAndMainSubsites extends Extension {
 		
 		}
 		/*******Added by GW***************/
-		if(isset($_GET['SubsiteID']) || ($record && isset($record->SubsiteID) && is_numeric($record->SubsiteID) && isset($this->owner->urlParams['ID']))){
-			$subsiteID 	= isset($_GET['SubsiteID']) ? $_GET['SubsiteID'] : $record->SubsiteID;
-			$subsite 	= Subsite::get()->byID($subsiteID);
-			
-			$subsiteTitle = $subsite ? $subsite->Title : "Main-Site";
-			Config::inst()->update('Upload', 'uploads_folder', $subsiteTitle . "/" . Config::inst()->get('Upload', 'uploads_folder'));
-		}
+		$subsite 		= Subsite::currentSubsite();
+		$subsiteTitle 	= $subsite ? $subsite->Title : "Main-Site";
+		$filter 		= FileNameFilter::create();
+		$subsiteTitle 	= $filter->filter($subsiteTitle);
+		
+		Config::inst()->update('Upload', 'uploads_folder', $subsiteTitle . "/" . Config::inst()->get('Upload', 'uploads_folder'));
+// 		Debug::log(Config::inst()->get('Upload', 'uploads_folder'));
 		/**********************************/
 		
 		// SECOND, check if we need to change subsites due to lack of permissions.
