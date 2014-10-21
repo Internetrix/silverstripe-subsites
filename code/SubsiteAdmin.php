@@ -29,5 +29,18 @@ class SubsiteAdmin extends ModelAdmin {
 
 		return $form;
 	}
+	
+	public function Breadcrumbs($unlinked = false) {
+		$defaultTitle = LeftAndMain::menu_title_for_class($this->class);
+		$title = _t("{$this->class}.MENUTITLE", $defaultTitle);
+		$items = new ArrayList(array(
+				new ArrayData(array(
+						'Title' => $title,
+						'Link' => ($unlinked) ? false : $this->Link()
+				))
+		));
+	
+		return $items;
+	}
 
 }
