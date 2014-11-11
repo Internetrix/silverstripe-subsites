@@ -298,27 +298,5 @@ class SiteTreeSubsites extends DataExtension {
 			if(in_array($this->owner->class, $blacklisted)) return false;
 		}
 	}
-	
-	public function alterCanIncludeInGoogleSitemap(&$can){
-		if(!$can){
-			if($this->owner->hasMethod('AbsoluteLink')) {
-				$hostHttp = parse_url(Director::protocolAndHost(), PHP_URL_HOST);
-				$objHttp = parse_url($this->owner->AbsoluteLink(), PHP_URL_HOST);
-					
-				if($objHttp != $hostHttp) {
-					//if this is the reason $can == false
-					$hostHttp = preg_replace('/^www\./', '', $hostHttp);
-					$objHttp = preg_replace('/^www\./', '', $objHttp);
-					
-					if($objHttp == $hostHttp) {
-						Debug::show($can);
-						$can = true;
-						Debug::show($can);
-						return true;
-					}
-				}
-			}
-		}
-		
-	}
+
 }
