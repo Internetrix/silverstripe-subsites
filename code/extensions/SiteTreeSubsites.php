@@ -311,6 +311,7 @@ class SiteTreeSubsites extends DataExtension {
 					$objHttp = preg_replace('/^www\./', '', $objHttp);
 					
 					if($objHttp == $hostHttp) {
+						Debug::show($can);
 						$can = true;
 					}
 				}
