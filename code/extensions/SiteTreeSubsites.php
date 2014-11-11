@@ -313,6 +313,7 @@ class SiteTreeSubsites extends DataExtension {
 					if($objHttp == $hostHttp) {
 						Debug::show($can);
 						$can = true;
+						return true;
 					}
 				}
 			}
