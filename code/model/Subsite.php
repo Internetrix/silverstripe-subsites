@@ -437,7 +437,7 @@ class Subsite extends DataObject implements PermissionProvider {
 			INNER JOIN \"PermissionRole\" ON \"Group_Roles\".\"PermissionRoleID\"=\"PermissionRole\".\"ID\"
 			INNER JOIN \"PermissionRoleCode\" ON \"PermissionRole\".\"ID\"=\"PermissionRoleCode\".\"RoleID\"
 			WHERE \"PermissionRoleCode\".\"Code\" IN ('$SQL_perms')
-			AND \"Group\".\"AccessAllSubsites\" = 1
+			AND (\"Group\".\"AccessAllSubsites\" = 1 OR \"Group\".\"AccessMainSite\" = 1)
 			AND \"MemberID\" = {$memberID}
 		")->value();
 
