@@ -94,6 +94,8 @@
 			onmatch: function () {
 				this.showHideSubsiteList();
 				
+				$('#AccessMainSite').css('padding-left', '0px');
+				
 				var ref=this;
 				$('#Form_ItemEditForm_AccessAllSubsites input').change(function() {
 					ref.showHideSubsiteList();
@@ -102,6 +104,7 @@
 			
 			showHideSubsiteList: function () {
 				$('#Form_ItemEditForm_Subsites').parent().parent().css('display', ($('#Form_ItemEditForm_AccessAllSubsites_1').is(':checked') ? 'none':''));
+				$('#AccessMainSite').css('display', ($('#Form_ItemEditForm_AccessAllSubsites_1').is(':checked') ? 'none':''));
 			}
 		});
 		

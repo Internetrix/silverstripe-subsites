@@ -7,7 +7,8 @@
 class GroupSubsites extends DataExtension implements PermissionProvider {
 
 	private static $db = array(
-		'AccessAllSubsites' => 'Boolean'
+		'AccessAllSubsites' => 'Boolean',
+		'AccessMainSite' 	=> 'Boolean'	
 	);
 
 	private static $many_many = array(
@@ -68,6 +69,11 @@ class GroupSubsites extends DataExtension implements PermissionProvider {
 				));
 
 				unset($subsiteMap[0]);
+				
+				$fields->addFieldToTab("Root.Subsites", new CheckboxField("AccessMainSite",
+					_t('GroupSubsites.ACCESSMAINSITE', 'Main Site')
+				));
+				
 				$fields->addFieldToTab("Root.Subsites", new CheckboxSetField("Subsites", "",
 					$subsiteMap));
 
@@ -130,7 +136,7 @@ class GroupSubsites extends DataExtension implements PermissionProvider {
 					$query->addWhere("(\"Group_Subsites\".\"SubsiteID\" IS NOT NULL OR
 						\"Group\".\"AccessAllSubsites\" = 1)");
 				} else {
-					$query->addWhere("\"Group\".\"AccessAllSubsites\" = 1");
+					$query->addWhere("\"Group\".\"AccessAllSubsites\" = 1 OR \"Group\".\"AccessMainSite\" = 1");
 				}
 			}
 			
@@ -147,6 +153,7 @@ class GroupSubsites extends DataExtension implements PermissionProvider {
 		// Note also that the after write test is only used when we're *not* on a subsite
 		if($this->owner->isChanged('ID') && !Subsite::currentSubsiteID()) {
 			$this->owner->AccessAllSubsites = 1;
+			$this->owner->AccessMainSite	= 1;
 		}
 	}
 	
