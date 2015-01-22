@@ -104,10 +104,9 @@ class GroupSubsites extends DataExtension implements PermissionProvider {
 	/**
 	 * Update any requests to limit the results to the current site
 	 */
-	function augmentSQL(SQLQuery &$query, DataQuery &$dataQuery = null) {
+	function augmentSQL(SQLQuery &$query) {
 		if(Subsite::$disable_subsite_filter) return;
 		if(Cookie::get('noSubsiteFilter') == 'true') return;
-		if($dataQuery->getQueryParam('Subsite.filter') === false) return;
 
 		// If you're querying by ID, ignore the sub-site - this is a bit ugly...
 		if(!$query->filtersOnID()) {
